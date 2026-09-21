@@ -10,9 +10,17 @@ const app = express();
 //   res.send("Hello from the server side");
 // });
 
-app.get("/user", (req, res) => {
-  res.send("User data");
-});
+app.get(
+  "/user",
+  (req, res, next) => {
+    next();
+    // res.send("User data");
+  },
+  (req, res) => {
+    console.log("This is the second callback function");
+    res.send("User 2nd data");
+  },
+);
 app.post("/user", (req, res) => {
   res.send("User data has been created");
 });

@@ -1,41 +1,19 @@
 const express = require("express");
 const app = express();
 
-//Handling server - request handler
-// app.use("/", (req, res) => {
-//   res.send("Hello from root");
-// });
-
-// app.use("/test", (req, res) => {
-//   res.send("Hello from the server side");
-// });
-
-app.get(
-  "/user",
-  (req, res, next) => {
-    next();
-    // res.send("User data");
-  },
-  (req, res) => {
-    console.log("This is the second callback function");
-    res.send("User 2nd data");
-  },
-);
-app.post("/user", (req, res) => {
-  res.send("User data has been created");
+const {adminAuth, userAuth} = require("./middlewares/auth");
+app.use("/admin", adminAuth);
+app.get("/admin/getAllUser", (req, res) => {
+  res.send("This is the getAllUser route");
 });
-app.patch("/user", (req, res) => {
-  res.send("User data has been updated specific data");
+app.delete("/admin/deleteUser", (req, res) => {
+  res.send("Deleted a user");
 });
 
-app.put("/user", (req, res) => {
-  res.send("User data has been replaced");
+app.get("/user/getProfile",userAuth, (req, res) => {
+  res.send("This is the getProfile route");
 });
-app.delete("/user", (req, res) => {
-  res.send("User data has been deleted");
-});
-
 //Server is listening
 app.listen(7777, () => {
-  console.log("Server is running on port 7777!!!");
+  console.log("Server is running on port 7777!!!")
 });
